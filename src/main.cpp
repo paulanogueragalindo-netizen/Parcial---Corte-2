@@ -128,6 +128,35 @@ void cargarMapa() {
     archivo.close();
 }
 
+void mostrarMapa() {
+    std::cout << "\n===== MAPA DEL PARQUEADERO =====\n\n";
+
+    for (int i = 0; i < (int)Mapa.size(); i++) {
+        for (int j = 0; j < (int)Mapa[i].size(); j++) {
+            std::string tipo = Mapa[i][j].tipo;
+
+            if (tipo == "Pared") {
+                std::cout << "W";
+            } else if (tipo == "Entrada") {
+                std::cout << "E";
+            } else if (tipo == "Salida") {
+                std::cout << "S";
+            } else if (tipo == "Via") {
+                std::cout << "V";
+            } else if (tipo == "Parkingspot") {
+                if (Mapa[i][j].ocupado) {
+                    std::cout << "X"; 
+                } else {
+                    std::cout << "C"; 
+                }
+            }
+        }
+        std::cout << "\n";
+    }
+
+    std::cout << "\nReferencia: W=Pared  E=Entrada  S=Salida  V=Via  C=Libre  X=Ocupado\n";
+}
+
 int main() {
     
 return 0;
