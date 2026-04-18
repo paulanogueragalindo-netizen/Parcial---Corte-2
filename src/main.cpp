@@ -303,6 +303,21 @@ void registrarSalida() {
     std::cout << ">> ERROR: Placa no encontrada en el parqueadero.\n";
 }
 
+void ubicarCarro(){
+    std::string placa;
+    std::cout << "\n>> Ingrese la placa del carro a retirar: ";
+    std::cin  >> placa;
+    for (int i = 0; i < Mapa.size(); i++){
+        for (int j = 0; j < Mapa[i].size(); j++){
+            if (Mapa[i][j].carro.placa == placa){
+                std::cout << "Su carro esta en la ubicacion: Fila " << i << ", Columna " << j << std::endl;
+                return;
+            }
+        }
+    }
+    std:: cout << "No se encuentra el carro\n";
+}
+
 void mostrarMenu() {
     std::cout << "===========================\n";
     std::cout << "   MENU PARQUEADERO\n";
@@ -311,7 +326,8 @@ void mostrarMenu() {
     std::cout << "2. Registrar ingreso de carro\n";
     std::cout << "3. Registrar salida de carro\n";
     std::cout << "4. Ver espacios disponibles\n";
-    std::cout << "5. Salir del sistema";
+    std::cout << "5. Ubicar un carro\n";
+    std::cout << "6. Salir del sistema";
     std::cout << "\n===========================\n";
     std::cout << "Seleccione una opcion: ";
 }
@@ -320,12 +336,11 @@ int main (){
     std::cout << ">> Iniciando sistema de parqueadero..\n";
     generarArchivo();
     cargarMapa();
-    std::cout << ">> Sistema listo. Espacios disponibles: "
-              << cupos_disponibles << "\n";
+    std::cout << ">> Sistema listo. Espacios disponibles: "<< cupos_disponibles << "\n";
 
     int opcion = 0;
 
-    while (true) {
+while (opcion != 5) {
         mostrarMenu();
         std::cin >> opcion;
 
@@ -340,11 +355,13 @@ int main (){
                 registrarSalida();
                 break;
             case 4:
-                std::cout << ">> Espacios disponibles: "
-                          << cupos_disponibles << "\n";
+                std::cout << ">> Espacios disponibles: "<< cupos_disponibles << "\n";
                 break;
             case 5:
-            std::cout << ">> Cerrando sistema. Hasta luego\n";
+                ubicarCarro();
+                break;
+            case 6:
+                std::cout << ">> Cerrando sistema. Hasta luego\n";
                 break;
             default:
                 std::cout << ">> Opcion invalida. Intente de nuevo.\n";
