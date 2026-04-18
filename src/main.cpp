@@ -148,7 +148,6 @@ void mostrarMapa() {
                     std::cout << "X"; 
                 } else {
                     std::cout << "C"; 
-
                 }
             }
         }
