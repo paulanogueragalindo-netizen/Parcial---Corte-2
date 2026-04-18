@@ -228,16 +228,15 @@ void registrarIngreso() {
                 Mapa[i][j].carro.columna = j;
                 Mapa[i][j].carro.ticket = ticket();
 
-                std::cout << "\n>> VEHICULO REGISTRADO\n";
-                std::cout << ">> -------------------------\n";
+                std::cout << "\n\033[34m VEHICULO REGISTRADO\n";
+                std::cout << "-------------------------\n\033[0m";
                 std::cout << ">> Placa    : " << placa << "\n";
                 std::cout << ">> Modelo   : " << modelo << "\n";
                 std::cout << ">> Posicion : Fila " << i << ", Columna " << j << "\n";
                 std::cout << ">> Entrada  : " << strEntrada << "\n";
                 std::cout << ">> Ticket   : " << Mapa[i][j].carro.ticket << "\n";
-                std::cout << ">> -------------------------\n";
-                std::cout << ">> Espacios disponibles: "
-                          << cupos_disponibles << "\n";
+                std::cout << "\033[34m-------------------------\n\033[0m";
+                std::cout << ">> Espacios disponibles: "<< cupos_disponibles << "\n";
                 cupos_disponibles++;
                 return;
             }
@@ -272,8 +271,8 @@ void registrarSalida() {
                 strEntrada.erase(strEntrada.size() - 1);
                 strSalida.erase(strSalida.size() - 1);
 
-                std::cout << "\n>> VEHICULO ENCONTRADO\n";
-                std::cout << ">> -------------------------\n";
+                std::cout << "\n\033[34m VEHICULO ENCONTRADO\n";
+                std::cout << "-------------------------\n\033[0m";
                 std::cout << ">> Placa    : " << Mapa[i][j].carro.placa  << "\n";
                 std::cout << ">> Modelo   : " << Mapa[i][j].carro.modelo << "\n";
                 std::cout << ">> Posicion : Fila " << i << ", Columna " << j << "\n";
@@ -282,7 +281,7 @@ void registrarSalida() {
                 std::cout << ">> ticket   : " << Mapa[i][j].carro.ticket << "\n";
                 std::cout << ">> Tiempo   : " << minutos << " minuto(s)\n";
                 std::cout << ">> Total    : $" << cobro << "\n";
-                std::cout << ">> -------------------------\n";
+                std::cout << "\033[34m-------------------------\n\033[0m";
 
                 Mapa[i][j].guardarHistorial(cobro);
                 Mapa[i][j].ocupado       = false;
@@ -293,7 +292,7 @@ void registrarSalida() {
                 Mapa[i][j].carro.columna = 0;
                 Mapa[i][j].carro.ticket = "";
 
-                std::cout << ">> Espacio liberado. Hasta pronto!\n";
+                std::cout << ">> Espacio liberado. ¡Hasta pronto!\n";
                 cupos_disponibles--;
                 return;
             }
@@ -319,16 +318,16 @@ void ubicarCarro(){
 }
 
 void mostrarMenu() {
-    std::cout << "===========================\n";
+    std::cout << "\n\033[32m===========================\n";
     std::cout << "   MENU PARQUEADERO\n";
-    std::cout << "===========================\n";
+    std::cout << "===========================\n\033[0m";
     std::cout << "1. Ver mapa del parqueadero\n";
     std::cout << "2. Registrar ingreso de carro\n";
     std::cout << "3. Registrar salida de carro\n";
     std::cout << "4. Ver espacios disponibles\n";
     std::cout << "5. Ubicar un carro\n";
     std::cout << "6. Salir del sistema";
-    std::cout << "\n===========================\n";
+    std::cout << "\n\033[32m===========================\n\033[0m";
     std::cout << "Seleccione una opcion: ";
 }
 
@@ -361,7 +360,7 @@ while (opcion != 5) {
                 ubicarCarro();
                 break;
             case 6:
-                std::cout << ">> Cerrando sistema. Hasta luego\n";
+                std::cout << ">> Cerrando sistema. ¡Hasta luego!\n";
                 break;
             default:
                 std::cout << ">> Opcion invalida. Intente de nuevo.\n";
