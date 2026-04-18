@@ -244,6 +244,78 @@ void registrarIngreso() {
         }
     }
 }
+
+void registrarSalida() {
+    std::string placa;
+    std::cout << "\n>> Ingrese la placa del carro a retirar: ";
+    std::cin  >> placa;
+
+    for (int i = 0; i < Mapa.size(); i++) {
+        for (int j = 0; j < Mapa[i].size(); j++) {
+            if (Mapa[i][j].ocupado && Mapa[i][j].carro.placa == placa) {
+                std::string ticket_usuario;
+                std::cout << "Ingresar el codigo del ticket asignado:";
+                std::cin >> ticket_usuario;
+                if (Mapa[i][j].carro.ticket != ticket_usuario){
+                    std::cout << "NO COINCIDE\n";
+                    return;
+                }
+
+                std::time_t ahora  = std::time(0);
+                double segundos    = std::difftime(ahora, Mapa[i][j].carro.entrada);
+                double minutos     = std::ceil(segundos / 60.0);
+                if (minutos < 1.0) minutos = 1.0;
+                double cobro       = minutos * tarifaMinuto;
+
+                std::string strEntrada = std::ctime(&Mapa[i][j].carro.entrada);
+                std::string strSalida  = std::ctime(&ahora);
+                strEntrada.erase(strEntrada.size() - 1);
+                strSalida.erase(strSalida.size() - 1);
+
+                std::cout << "\n>> VEHICULO ENCONTRADO\n";
+                std::cout << ">> -------------------------\n";
+                std::cout << ">> Placa    : " << Mapa[i][j].carro.placa  << "\n";
+                std::cout << ">> Modelo   : " << Mapa[i][j].carro.modelo << "\n";
+                std::cout << ">> Posicion : Fila " << i << ", Columna " << j << "\n";
+                std::cout << ">> Entrada  : " << strEntrada << "\n";
+                std::cout << ">> Salida   : " << strSalida << "\n";
+                std::cout << ">> ticket   : " << Mapa[i][j].carro.ticket << "\n";
+                std::cout << ">> Tiempo   : " << minutos << " minuto(s)\n";
+                std::cout << ">> Total    : $" << cobro << "\n";
+                std::cout << ">> -------------------------\n";
+
+                Mapa[i][j].guardarHistorial(cobro);
+                Mapa[i][j].ocupado       = false;
+                Mapa[i][j].carro.placa   = "";
+                Mapa[i][j].carro.modelo  = "";
+                Mapa[i][j].carro.entrada = 0;
+                Mapa[i][j].carro.fila    = 0;
+                Mapa[i][j].carro.columna = 0;
+                Mapa[i][j].carro.ticket = "";
+
+                std::cout << ">> Espacio liberado. Hasta pronto!\n";
+                cupos_disponibles--;
+                return;
+            }
+        }
+    }
+
+    std::cout << ">> ERROR: Placa no encontrada en el parqueadero.\n";
+}
+
+void mostrarMenu() {
+    std::cout << "===========================\n";
+    std::cout << "   MENU PARQUEADERO\n";
+    std::cout << "===========================\n";
+    std::cout << "1. Ver mapa del parqueadero\n";
+    std::cout << "2. Registrar ingreso de carro\n";
+    std::cout << "3. Registrar salida de carro\n";
+    std::cout << "4. Ver espacios disponibles\n";
+    std::cout << "6. Salir del sistema";
+    std::cout << "\n===========================\n";
+    std::cout << "Seleccione una opcion: ";
+}
+
 int main (){
     
     return 0;
