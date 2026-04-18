@@ -317,6 +317,39 @@ void mostrarMenu() {
 }
 
 int main (){
-    
+    std::cout << ">> Iniciando sistema de parqueadero..\n";
+    generarArchivo();
+    cargarMapa();
+    std::cout << ">> Sistema listo. Espacios disponibles: "
+              << cupos_disponibles << "\n";
+
+    int opcion = 0;
+
+    while (true) {
+        mostrarMenu();
+        std::cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                mostrarMapa();
+                break;
+            case 2:
+                registrarIngreso();
+                break;
+            case 3:
+                registrarSalida();
+                break;
+            case 4:
+                std::cout << ">> Espacios disponibles: "
+                          << cupos_disponibles << "\n";
+                break;
+            case 5:
+            std::cout << ">> Cerrando sistema. Hasta luego\n";
+                break;
+            default:
+                std::cout << ">> Opcion invalida. Intente de nuevo.\n";
+                break;
+        }
+    }
     return 0;
 }
