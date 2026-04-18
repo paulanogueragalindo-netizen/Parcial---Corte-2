@@ -4,6 +4,7 @@
 #include <ctime>
 #include <cmath>
 #include <fstream>
+#include <random>
 
 const int filas = 25;
 const int columnas = 25;
@@ -13,6 +14,7 @@ struct RegistroCarro {
     std::string placa;
     std::string modelo;
     std::time_t entrada;
+    std::string ticket;
     int fila;
     int columna;
 };
@@ -46,10 +48,10 @@ struct Casilla {
         archivo << "==============================\n";
         archivo << "Placa    : " << carro.placa << "\n";
         archivo << "Modelo   : " << carro.modelo << "\n";
-        archivo << "Posicion : Fila " << carro.fila
-                        << ", Columna " << carro.columna << "\n";
+        archivo << "Posicion : Fila " << carro.fila << ", Columna " << carro.columna << "\n";
         archivo << "Entrada  : " << strEntrada << "\n";
         archivo << "Salida   : " << strSalida << "\n";
+        archivo << "Ticket   : " << carro.ticket << "\n";
         archivo << "Tiempo   : " << minutos << " minuto(s)" << "\n";
         archivo << "Total    : $" << cobro << "\n";
         archivo << "==============================\n\n";
@@ -157,7 +159,92 @@ void mostrarMapa() {
     std::cout << "\nReferencia: W=Pared  E=Entrada  S=Salida  V=Via  C=Libre  X=Ocupado\n";
 }
 
-int main () {
+std::string ticket(){
+    int longitud = 10;
+    std::string caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+    std::random_device rd;
+    std::mt19937 generator(rd());
+    std::uniform_int_distribution<> distribution(0, caracteres.size()-1);
+
+    bool unico = true;
+    std::string ticket;
+    do{
+        ticket.clear();
+        unico = true;
+        for(int i = 0; i < longitud; i++){
+            ticket += caracteres[distribution(generator)];
+        }
+
+        for (int i= 0; i < Mapa.size(); i++){
+            for (int j= 0 ; j < Mapa[i].size(); j ++){
+                if(Mapa[i][j].carro.ticket == ticket){
+                    unico = false;
+                }
+            }
+        }
+    } while(!unico);
+    
+    return ticket;
+}
+
+void registrarIngreso() {
+    if (cupos_disponibles == 0) {
+        std::cout << ">> No hay espacios disponibles.\n";
+        return;
+    }
+
+    std::string placa, modelo;
+
+    std::cout << "\n>> ESCANEANDO VEHICULO...\n";
+    std::cout << ">> Ingrese la placa detectada : ";
+    std::cin  >> placa;
+    std::cout << ">> Ingrese el modelo del carro: ";
+    std::cin  >> modelo;
+
+    for (int i = 0; i < Mapa.size(); i++) {
+        for (int j = 0; j < Mapa[i].size(); j++) {
+            if (Mapa[i][j].ocupado && Mapa[i][j].carro.placa == placa) {
+                std::cout << ">> ERROR: Ese carro ya esta en el parqueadero.\n";
+                return;
+            }
+        }
+    }
+
+    for (int i = 0; i < Mapa.size(); i++) {
+        for (int j = 0; j < Mapa[i].size(); j++) {
+            if (Mapa[i][j].tipo == "Parkingspot" && !Mapa[i][j].ocupado) {
+
+                std::time_t ahora  = std::time(0);
+                std::string strEntrada = std::ctime(&ahora);
+                if (!strEntrada.empty() && strEntrada[strEntrada.size() - 1] == '\n')
+                    strEntrada.erase(strEntrada.size() - 1);
+
+                Mapa[i][j].ocupado       = true;
+                Mapa[i][j].carro.placa   = placa;
+                Mapa[i][j].carro.modelo  = modelo;
+                Mapa[i][j].carro.entrada = ahora;
+                Mapa[i][j].carro.fila    = i;
+                Mapa[i][j].carro.columna = j;
+                Mapa[i][j].carro.ticket = ticket();
+
+                std::cout << "\n>> VEHICULO REGISTRADO\n";
+                std::cout << ">> -------------------------\n";
+                std::cout << ">> Placa    : " << placa << "\n";
+                std::cout << ">> Modelo   : " << modelo << "\n";
+                std::cout << ">> Posicion : Fila " << i << ", Columna " << j << "\n";
+                std::cout << ">> Entrada  : " << strEntrada << "\n";
+                std::cout << ">> Ticket   : " << Mapa[i][j].carro.ticket << "\n";
+                std::cout << ">> -------------------------\n";
+                std::cout << ">> Espacios disponibles: "
+                          << cupos_disponibles << "\n";
+                cupos_disponibles++;
+                return;
+            }
+        }
+    }
+}
+int main (){
+    
     return 0;
 }
