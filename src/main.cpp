@@ -311,7 +311,7 @@ void mostrarMenu() {
     std::cout << "2. Registrar ingreso de carro\n";
     std::cout << "3. Registrar salida de carro\n";
     std::cout << "4. Ver espacios disponibles\n";
-    std::cout << "6. Salir del sistema";
+    std::cout << "5. Salir del sistema";
     std::cout << "\n===========================\n";
     std::cout << "Seleccione una opcion: ";
 }
