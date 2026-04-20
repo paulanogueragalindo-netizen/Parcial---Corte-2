@@ -197,15 +197,15 @@ void registrarIngreso() {
     std::string placa, modelo;
 
     std::cout << "\n>> ESCANEANDO VEHICULO...\n";
-    std::cout << ">> Ingrese la placa detectada : ";
+    std::cout << ">> Ingrese la placa detectada: ";
     std::cin  >> placa;
-    std::cout << ">> Ingrese el modelo del carro: ";
+    std::cout << ">> Ingrese el modelo del vehiculo: ";
     std::cin  >> modelo;
 
     for (int i = 0; i < Mapa.size(); i++) {
         for (int j = 0; j < Mapa[i].size(); j++) {
             if (Mapa[i][j].ocupado && Mapa[i][j].carro.placa == placa) {
-                std::cout << ">> ERROR: Ese carro ya esta en el parqueadero.\n";
+                std::cout << ">> ERROR: Vehiculo ya registrado.\n";
                 return;
             }
         }
@@ -246,17 +246,17 @@ void registrarIngreso() {
 
 void registrarSalida() {
     std::string placa;
-    std::cout << "\n>> Ingrese la placa del carro a retirar: ";
+    std::cout << "\n>> Ingrese la placa del vehiculo a retirar: ";
     std::cin  >> placa;
 
     for (int i = 0; i < Mapa.size(); i++) {
         for (int j = 0; j < Mapa[i].size(); j++) {
             if (Mapa[i][j].ocupado && Mapa[i][j].carro.placa == placa) {
                 std::string ticket_usuario;
-                std::cout << "Ingresar el codigo del ticket asignado:";
+                std::cout << "Ingrese el codigo del ticket asignado:";
                 std::cin >> ticket_usuario;
                 if (Mapa[i][j].carro.ticket != ticket_usuario){
-                    std::cout << "NO COINCIDE\n";
+                    std::cout << "ERROR: El ticket no coincide\n";
                     return;
                 }
 
@@ -292,7 +292,7 @@ void registrarSalida() {
                 Mapa[i][j].carro.columna = 0;
                 Mapa[i][j].carro.ticket = "";
 
-                std::cout << ">> Espacio liberado. ¡Hasta pronto!\n";
+                std::cout << ">> Espacio liberado. Hasta pronto!\n";
                 cupos_disponibles--;
                 return;
             }
@@ -304,17 +304,17 @@ void registrarSalida() {
 
 void ubicarCarro(){
     std::string placa;
-    std::cout << "\n>> Ingrese la placa del carro a retirar: ";
+    std::cout << "\n>> Ingrese la placa del vehiculo a retirar: ";
     std::cin  >> placa;
     for (int i = 0; i < Mapa.size(); i++){
         for (int j = 0; j < Mapa[i].size(); j++){
             if (Mapa[i][j].carro.placa == placa){
-                std::cout << "Su carro esta en la ubicacion: Fila " << i << ", Columna " << j << std::endl;
+                std::cout << "Su vehiculo esta en la ubicacion: Fila " << i << ", Columna " << j << std::endl;
                 return;
             }
         }
     }
-    std:: cout << "No se encuentra el carro\n";
+    std:: cout << "No se encuentra el vehiculo\n";
 }
 
 void mostrarMenu() {
@@ -322,8 +322,8 @@ void mostrarMenu() {
     std::cout << "   MENU PARQUEADERO\n";
     std::cout << "===========================\n\033[0m";
     std::cout << "1. Ver mapa del parqueadero\n";
-    std::cout << "2. Registrar ingreso de carro\n";
-    std::cout << "3. Registrar salida de carro\n";
+    std::cout << "2. Registrar ingreso del vehiculo\n";
+    std::cout << "3. Registrar salida del vehiculo\n";
     std::cout << "4. Ver espacios disponibles\n";
     std::cout << "5. Ubicar un carro\n";
     std::cout << "6. Salir del sistema";
@@ -360,7 +360,10 @@ while (opcion != 5) {
                 ubicarCarro();
                 break;
             case 6:
-                std::cout << ">> Cerrando sistema. ¡Hasta luego!\n";
+                std::cout << ">> Cerrando sistema. Hasta luego!\n";
+                if (opcion == 6){
+                    return 0;
+                }
                 break;
             default:
                 std::cout << ">> Opcion invalida. Intente de nuevo.\n";
